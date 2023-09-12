@@ -1,22 +1,20 @@
 package com.android.latecomers_6weeks
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import com.android.latecomers_6weeks.databinding.ActivityFirstBinding
+import com.android.latecomers_6weeks.databinding.ActivitySecondBinding
 
-class FirstActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityFirstBinding.inflate(layoutInflater) }
+class SecondActivity : AppCompatActivity() {
+    private val binding by lazy{ ActivitySecondBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("6weeks","First_onCreate")
         setContentView(binding.root)
+        Log.d("6weeks!","Second_onCreate")
 
-        binding.btnToSecondActivity.setOnClickListener {
-            val intent = Intent(this, SecondActivity::class.java)
+        binding.btnFinish.setOnClickListener {
+            val intent = Intent(this, FirstActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -24,26 +22,26 @@ class FirstActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("6weeks!","First_onStart")
+        Log.d("6weeks!","Second_onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("6weeks!","First_onResume")
+        Log.d("6weeks!","Second_onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("6weeks!", "First_onPause")
+        Log.d("6weeks!", "Second_onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("6weeks!","First_onStop")
+        Log.d("6weeks!","Second_onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("6weeks!","First_onDestroy")
+        Log.d("6weeks!","Second_onDestroy")
     }
 }
