@@ -15,6 +15,7 @@ class SecondActivity : AppCompatActivity() {
 
         binding.btnFinish.setOnClickListener {
             val intent = Intent(this, FirstActivity::class.java)
+            this.showToast("FristActivity로 이동")
             startActivity(intent)
             finish()
         }
