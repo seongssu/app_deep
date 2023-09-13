@@ -13,7 +13,7 @@ class FirstActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("6weeks","First_onCreate")
+        Log.d("6weeks!","First_onCreate")
         setContentView(binding.root)
 
         binding.apply {
