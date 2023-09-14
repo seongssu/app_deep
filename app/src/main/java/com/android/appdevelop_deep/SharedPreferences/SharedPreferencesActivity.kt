@@ -2,8 +2,8 @@ package com.android.appdevelop_deep.SharedPreferences
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.appdevelop_deep.R
 import com.android.appdevelop_deep.databinding.ActivitySharedPreferencesBinding
+import com.android.appdevelop_deep.shortToast
 
 class SharedPreferencesActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySharedPreferencesBinding.inflate(layoutInflater) }
@@ -17,7 +17,7 @@ class SharedPreferencesActivity : AppCompatActivity() {
         binding.btnSharedpreferenceSave.setOnClickListener {
             val content = binding.sharedpreferenceEditText.text.toString()
             spf.saveData(content)
-            showToast("Data Saved")
+            shortToast("Data Saved")
             finish()
         }
         val loadData = spf.loadData()
