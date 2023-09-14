@@ -17,6 +17,7 @@ class SharedPreferencesActivity : AppCompatActivity() {
         binding.btnSharedpreferenceSave.setOnClickListener {
             val content = binding.sharedpreferenceEditText.text.toString()
             spf.saveData(content)
+            showToast("Data Saved")
             finish()
         }
         val loadData = spf.loadData()
