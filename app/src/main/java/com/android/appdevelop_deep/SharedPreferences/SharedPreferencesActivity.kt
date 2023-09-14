@@ -2,7 +2,6 @@ package com.android.appdevelop_deep.SharedPreferences
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.appdevelop_deep.R
 import com.android.appdevelop_deep.databinding.ActivitySharedPreferencesBinding
 
 class SharedPreferencesActivity : AppCompatActivity() {
