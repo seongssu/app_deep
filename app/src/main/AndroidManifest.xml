@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AppDevelop_deep"
         tools:targetApi="31">
         <activity
-            android:name=".GetUserLocation.GetUserLocationActivity"
+            android:name=".CreatingGoogleMapsApp.CreatingGoogleMapsAppActivity"
             android:exported="false" />
         <activity
             android:name=".SharedPreferences.SharedPreferencesActivity"
