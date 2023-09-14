@@ -5,13 +5,20 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Looper
+import androidx.core.app.ActivityCompat
 import com.android.appdevelop_deep.R
 import com.android.appdevelop_deep.longToast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -50,6 +57,19 @@ class CreatingGoogleMapsAppActivity : AppCompatActivity(), OnMapReadyCallback {
         )
     }
     override fun onMapReady(p0: GoogleMap) {
-
+        val seoul = LatLng( 37.5212557526595, 	127.023032708155)
+        mGoogleMap = p0
+        mGoogleMap.apply {
+            mapType = GoogleMap.MAP_TYPE_NORMAL
+            val markerOptions = MarkerOptions()
+            markerOptions.apply {
+                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                // 마커 아이콘 설정, HUE_AZURE : 파란색
+                position(seoul)
+                title("가로수 길")
+                snippet("Tel: 02-308-7894")
+                addMarker(markerOptions)
+            }
+        }
     }
 }
