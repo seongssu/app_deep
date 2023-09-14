@@ -91,15 +91,15 @@ class CreatingGoogleMapsAppActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         //위치값 요청에 대해서 갱신되는 콜백변수
-        locationCallback = object : LocationCallback() {            //LocationCallback : API를 통해
-            // 위치정보를 업데이트 해주는 추상 클래스
+        locationCallback = object : LocationCallback() {
+            //LocationCallback : API를 통해 위치정보를 업데이트 해주는 추상 클래스
 
             override fun onLocationResult(p0: LocationResult) {
                 //위치 업데이트는 주기적으로 발생한다. 그리고 그 업데이트마다 호출되어 결과를 받는다.
 
                 p0?.let {
                     for (location in it.locations) {    //locations : 업데이트된 위치 목록
-
+                        setLastLocation(location)
                     }
                 }
             }
@@ -115,10 +115,10 @@ class CreatingGoogleMapsAppActivity : AppCompatActivity(), OnMapReadyCallback {
 
             && ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_COARSE_LOCATION  //ACCESS_COARSE_LOCATION : 현재 위치를 정확히
-                // 알 필요가 없을떄 사용
-            ) != PackageManager.PERMISSION_GRANTED      //즉, ACCESS_COARSE_LOCATION의 권한이
-        // 허용되지않았을때를 말한다.
+                Manifest.permission.ACCESS_COARSE_LOCATION
+                //ACCESS_COARSE_LOCATION : 현재 위치를 정확히 알 필요가 없을떄 사용
+            ) != PackageManager.PERMISSION_GRANTED
+        //즉, ACCESS_COARSE_LOCATION의 권한이 허용되지않았을때를 말한다.
         ) {
             return
         }
@@ -130,4 +130,20 @@ class CreatingGoogleMapsAppActivity : AppCompatActivity(), OnMapReadyCallback {
             locationCallback,   //locationCallback : 위치 업데이트가 발생할 때 호출될 콜백 함수
             Looper.myLooper()!! //Looper.myLooper() : 위치 업데이트가 현재 스레드에서 처리가 된다.
         )
-    }}
+    }
+    fun setLastLocation(location : Location){
+        val LATLNG = LatLng(location.latitude, location.longitude)
+        //LatLng :  Google Maps Android API에서 사용되는 클래스, 지도위의 특정 위치를 나타냄
+        // location.latitude : 현재위치의 위도
+        // location.longitude : 현재위치의 경도
+        val markerOptions = MarkerOptions().position(LATLNG).title("현재 위치")
+        val cameraPosition = CameraPosition.Builder().target(LATLNG).zoom(15.0f).build()
+        //target(LATLNG) : 카메라의 중심위치
+        //zoom(15.0f) : 줌레벨, 중간정도의 확대 수준
+        //build() : 카메라 위치 및 줌 레벨을 기반으로 CameraPosition 객체를 최종적으로 빌드하고 반환
+
+        mGoogleMap.addMarker(markerOptions)
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        //CameraUpdateFactory 클래스의 newCameraPosition메서드를 이용해서 업데이트된 위치로 카메라위치를 설정한다.
+    }
+}
