@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Miseya.MiseyaActivity">
+    tools:context=".Miseya.MiseyaActivity"
+    android:id="@+id/miseya_background">
 
 
     <com.skydoves.powerspinner.PowerSpinnerView
@@ -18,7 +19,9 @@
         android:gravity="center"
         android:padding="10dp"
         android:textColorHint="@color/white"
-        android:background="@color/Pink200"/>
+        android:background="@color/Pink200"
+        app:spinner_item_array="@array/Sido"
+        tools:ignore="HardcodedText,UnusedAttribute"/>
 
     <com.skydoves.powerspinner.PowerSpinnerView
         android:id="@+id/spinner_goo"
@@ -31,7 +34,8 @@
         android:gravity="center"
         android:padding="10dp"
         android:textColorHint="@color/white"
-        android:background="@color/Purple200"/>
+        android:background="@color/Purple200"
+        tools:ignore="HardcodedText,UnusedAttribute"/>
 
     <ImageView
         android:id="@+id/smile"
@@ -47,7 +51,6 @@
         android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" - ㎍/㎥"
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

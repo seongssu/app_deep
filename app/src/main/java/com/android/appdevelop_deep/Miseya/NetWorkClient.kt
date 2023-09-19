@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 //인터페이스에서 받아온 데이터를 관리한다.
 object NetWorkClient {
-    private val DUST_BASE_URL = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc"
+    private val DUST_BASE_URL = "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/"
 
     private fun createOkHttpClient(): OkHttpClient{
         val interceptor = HttpLoggingInterceptor()

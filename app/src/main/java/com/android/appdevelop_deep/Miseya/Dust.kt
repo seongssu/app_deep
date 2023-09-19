@@ -36,16 +36,16 @@ data class DustItem(
     val pm10Value: String,
     val khaiGrade : String,
     val pm25Value : String,
-    val sidoName : String,
+    val sidoName : String?,
     val no2Flag : String?,
     val no2Grade : String,
     val o3Flag : String?,
     val pm25Grade : String,
     val so2Flag : String?,
-    val dataTime : String,
+    val dataTime : String?,
     val coGrade : String,
-    val no2Value : String,
-    val stationName : String,
-    val pm10Grade : String,
-    val o3Value : String
+    val no2Value : String?,
+    val stationName : String?,
+    val pm10Grade : String?,
+    val o3Value : String?
 )
