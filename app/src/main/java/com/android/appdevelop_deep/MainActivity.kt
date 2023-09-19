@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.appdevelop_deep.CreatingGoogleMapsApp.CreatingGoogleMapsAppActivity
+import com.android.appdevelop_deep.Miseya.MiseyaActivity
 import com.android.appdevelop_deep.SharedPreferences.SharedPreferencesActivity
 import com.android.appdevelop_deep.databinding.ActivityMainBinding
 
@@ -13,13 +14,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.btnSharedpreference.setOnClickListener {
-            val intent = Intent(this, SharedPreferencesActivity::class.java )
-            startActivity(intent)
+        binding.apply {
+            btnSharedpreference.setOnClickListener {
+                val intent = Intent(this@MainActivity, SharedPreferencesActivity::class.java )
+                startActivity(intent)
+            }
+            btnGooglemaps.setOnClickListener {
+                val intent = Intent(this@MainActivity, CreatingGoogleMapsAppActivity::class.java)
+                startActivity(intent)
+            }
+            btnMiseya.setOnClickListener {
+                val intent = Intent(this@MainActivity, MiseyaActivity::class.java)
+                startActivity(intent)
+            }
         }
-        binding.btnGooglemaps.setOnClickListener {
-            val intent = Intent(this, CreatingGoogleMapsAppActivity::class.java)
-            startActivity(intent)
-        }
+
+
     }
 }
