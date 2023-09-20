@@ -1,17 +1,14 @@
 package com.android.imagesearch.SearchFragment
 
-import android.icu.lang.UCharacter.VerticalOrientation
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.android.imagesearch.Method.shortToast
 import com.android.imagesearch.api.Document
 import com.android.imagesearch.api.NetWorkClient
 import com.android.imagesearch.databinding.FragmentSearchBinding
@@ -24,10 +21,12 @@ class SearchFragment : Fragment() {
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private lateinit var spf : SPF
     var items = ArrayList<Document>()
+    private var push_items = ArrayList<Document>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         spf = SPF(requireContext())
 
         binding.searchView.apply {
@@ -54,24 +53,35 @@ class SearchFragment : Fragment() {
         val Authorization = "KakaoAK $REST_API_KEY"
         val responseData = NetWorkClient.KakaoNetWork.getImage(Authorization, param)
         requireActivity().runOnUiThread {
-            if (responseData.documents != null) {
-                items = responseData.documents
-                val gson = Gson()
-                val save_items = gson.toJson(items)
-                spf.saveData(save_items)
 
-                val get_items = spf.getData()
-                val push_items:ArrayList<Document> = Gson().fromJson(get_items, object:
-                    TypeToken<ArrayList<Document>>(){}.type)
+                items = responseData.documents
 
                 binding.recyclerView.apply {
-                    Log.d("ImageSearchs","SearchFragment spf 데이터 : ${save_items}")
-                    adapter = SearchFragmentAdapter(push_items,context)
+                    adapter = SearchFragmentAdapter(items,context).apply {
+                        itemClick = object : SearchFragmentAdapter.ItemClick{
+                            override fun onFavoritesClick(view: View, position: Int) {
+                                if(position in 0..items.size){
+                                    val item = items[position]
+                                        item.isLike = !item.isLike
+
+                                        val gson = Gson()
+                                        val save_items = gson.toJson(items)
+                                        spf.saveData(save_items)
+
+                                        val get_items = spf.getData()
+                                        push_items = Gson().fromJson(get_items, object:
+                                            TypeToken<ArrayList<Document>>(){}.type)
+                                        Log.d("ImageSearchs","SearchFragment spf 데이터 : ${push_items}")
+
+                                        notifyDataSetChanged()
+
+                                }
+                            }
+                        }
+                    }
                     layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
                     setHasFixedSize(true)
                 }
-
-            } else requireContext().shortToast("잘못 입력하셨습니다.")
         }
     }
 
