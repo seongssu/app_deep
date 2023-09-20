@@ -1,7 +1,7 @@
 package com.android.imagesearch.api
 data class Kakao(
     val meta :Meta,
-    val document :ArrayList<Document>
+    val documents :ArrayList<Document>
 )
 
 data class Meta(
