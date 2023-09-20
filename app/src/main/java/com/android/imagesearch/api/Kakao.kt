@@ -1,8 +1,5 @@
 package com.android.imagesearch.api
-
-data class Kakao(val authorization : Authorization)
-
-data class Authorization(
+data class Kakao(
     val meta :Meta,
     val document :ArrayList<Document>
 )
