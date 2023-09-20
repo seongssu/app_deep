@@ -3,6 +3,7 @@ package com.android.imagesearch
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
+import com.android.imagesearch.ViewPager2Adapter.ViewPager2Adapter
 import com.android.imagesearch.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 

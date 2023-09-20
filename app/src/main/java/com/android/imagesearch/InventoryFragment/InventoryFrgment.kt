@@ -1,10 +1,11 @@
-package com.android.imagesearch
+package com.android.imagesearch.InventoryFragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.android.imagesearch.R
 
 
 class InventoryFrgment : Fragment() {

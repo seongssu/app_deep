@@ -1,6 +1,8 @@
-package com.android.imagesearch
+package com.android.imagesearch.SearchFragment
 
+import android.icu.lang.UCharacter.VerticalOrientation
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.imagesearch.api.Document
-import com.android.imagesearch.api.Kakao
 import com.android.imagesearch.api.NetWorkClient
 import com.android.imagesearch.databinding.FragmentSearchBinding
 import kotlinx.coroutines.launch
@@ -23,7 +25,7 @@ class SearchFragment : Fragment() {
     ): View? {
         binding.searchView.apply {
             isSubmitButtonEnabled = true
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (!query.isNullOrEmpty()) {
                         val searchQuery = query.trim()
@@ -31,6 +33,7 @@ class SearchFragment : Fragment() {
                     }
                     return true
                 }
+
                 override fun onQueryTextChange(newText: String?): Boolean {
                     return true
                 }
@@ -38,16 +41,26 @@ class SearchFragment : Fragment() {
         }
         return binding.root
     }
+
     private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
         val REST_API_KEY = "9b21bf534817ea027eda3d1a32af0df7"
         val Authorization = "KakaoAK $REST_API_KEY"
-        val responseData = NetWorkClient.KakaoNetWork.getImage(Authorization,param)
-        if(responseData.document != null){
-            items = responseData.document
-        }else Toast.makeText(requireContext(),"검색어를 다시 입력해주세요", Toast.LENGTH_SHORT).show()
+        val responseData = NetWorkClient.KakaoNetWork.getImage(Authorization, param)
+        requireActivity().runOnUiThread {
+            if (responseData.documents != null) {
+                items = responseData.documents
+                binding.recyclerView.apply {
+                    Log.d("ImageSearchs",items.toString())
+                    adapter = SearchFragmentAdapter(items,context)
+                    layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+                    setHasFixedSize(true)
+                }
+
+            } else Toast.makeText(requireContext(), "검색어를 다시 입력해주세요", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    private fun setUpParameter(name:String): HashMap<String, String>{
+    private fun setUpParameter(name: String): HashMap<String, String> {
         return hashMapOf(
             "query" to name,
             "sort" to "accuracy",
