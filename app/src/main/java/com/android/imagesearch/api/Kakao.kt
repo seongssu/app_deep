@@ -18,7 +18,5 @@ data class Document(
     val height : Int,
     val display_sitename : String,
     val doc_url : String,
-    val datetime : String,
-    var isLike:Boolean
-    = false
+    val datetime : String
 )
