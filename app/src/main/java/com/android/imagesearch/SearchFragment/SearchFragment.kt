@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.imagesearch.Method.shortToast
 import com.android.imagesearch.api.Document
 import com.android.imagesearch.api.NetWorkClient
+import com.android.imagesearch.api.VideoDocument
 import com.android.imagesearch.databinding.FragmentSearchBinding
 import com.android.imagesearch.sharedPreferences.ImageSearchData
 import com.android.imagesearch.sharedPreferences.SPF
+import com.android.imagesearch.sharedPreferences.VideoData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
@@ -24,7 +26,10 @@ class SearchFragment : Fragment() {
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private lateinit var spf: SPF
     var items = ArrayList<Document>()
+    var items1 = ArrayList<VideoDocument>()
     val image_items = ArrayList<ImageSearchData>()
+    val video_items = ArrayList<VideoData>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +44,11 @@ class SearchFragment : Fragment() {
                     if (!query.isNullOrEmpty()) {
                         val searchQuery = query.trim()
                         spf.saveTitle(searchQuery)
-                        communicateNetWork(setUpParameter(searchQuery))
+                        communicateNetWork(
+                            setUpParameter(searchQuery),
+                            setUpVideoParameter(searchQuery)
+                        )
+
                     }
                     context.shortToast("검색 되었습니다.")
                     return false
@@ -57,62 +66,78 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    private fun communicateNetWork(param: HashMap<String, String>) = lifecycleScope.launch {
-        val REST_API_KEY = "9b21bf534817ea027eda3d1a32af0df7"
-        val Authorization = "KakaoAK $REST_API_KEY"
-        val responseData = NetWorkClient.KakaoNetWork.getImage(Authorization, param)
+    private fun communicateNetWork(
+        param: HashMap<String, String>, param1: HashMap<String,
+                String>
+    ) = lifecycleScope
+        .launch {
+            val REST_API_KEY = "9b21bf534817ea027eda3d1a32af0df7"
+            val Authorization = "KakaoAK $REST_API_KEY"
+            val responseData = NetWorkClient.KakaoNetWork.getImage(Authorization, param)
+            val responseData1 = NetWorkClient.KakaoNetWork.getVideo(Authorization, param1)
 
-        requireActivity().runOnUiThread {
+            requireActivity().runOnUiThread {
 
-            items = responseData.documents
-            items.forEach {
-                val display_sitename = it.display_sitename
-                val datetime = it.datetime
-                val image_url = it.image_url
-                image_items.add(ImageSearchData(display_sitename, datetime, image_url))
-            }
-
-            parentFragmentManager.setFragmentResultListener(
-                "filteritemsKey", this@SearchFragment
-            ) { key, result ->
-                val get_items = result.getParcelableArrayList<ImageSearchData>("filteritems")
-                Log.d("ImageSearchs", "bundle로 받아온 데이터: ${get_items}")
-                if (get_items != null) {
-                    get_items.forEach { item ->
-                        val index = items.indexOfFirst { it.image_url == item.image_url }
-                        image_items[index].isLike = false
-                        Log.d("ImageSearchs", "바뀐 isLike : ${image_items}")
-
-                        saveItems()
-                        Log.d("ImageSearchs", "bundle 저장데이터${image_items}")
-                    }
-                    binding.recyclerView.adapter?.notifyDataSetChanged()
+                items = responseData.documents
+                items1 = responseData1.documents
+                items.forEach {
+                    val display_sitename = it.display_sitename
+                    val datetime = it.datetime
+                    val image_url = it.image_url
+                    image_items.add(ImageSearchData(display_sitename, datetime, image_url))
                 }
-            }
+                items1.forEach {
+                    val title = it.title
+                    val thumbnail = it.thumbnail
+                    val datetime = it.datetime
+                    video_items.add(VideoData(title,datetime,thumbnail))
+                    Log.d("ImageSearchs", "Video데이터: ${video_items}")
+                }
 
-            binding.recyclerView.apply {
-                adapter = SearchFragmentAdapter(image_items, context).apply {
-                    itemClick = object : SearchFragmentAdapter.ItemClick {
-                        override fun onFavoritesClick(view: View, position: Int) {
-                            if (position in 0..image_items.size) {
-                                val item = image_items[position]
-                                item.isLike = !item.isLike
-                                if(item.isLike) {context.shortToast("보관함에 추가 되었습니다.")} else
-                                    context.shortToast("보관함에서 제거 되었습니다.")
-                                Log.d("ImageSearchs", "Search의 데이터 : ${item}")
-                                saveItems()
-                                Log.d("ImageSearchs", "버튼 저장데이터${image_items}")
-                                notifyDataSetChanged()
+                parentFragmentManager.setFragmentResultListener(
+                    "filteritemsKey", this@SearchFragment
+                ) { key, result ->
+                    val get_items = result.getParcelableArrayList<ImageSearchData>("filteritems")
+                    Log.d("ImageSearchs", "bundle로 받아온 데이터: ${get_items}")
+                    if (get_items != null) {
+                        get_items.forEach { item ->
+                            val index = items.indexOfFirst { it.image_url == item.image_url }
+                            image_items[index].isLike = false
+                            Log.d("ImageSearchs", "바뀐 isLike : ${image_items}")
 
+                            saveItems()
+                            Log.d("ImageSearchs", "bundle 저장데이터${image_items}")
+                        }
+                        binding.recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                }
+
+                binding.recyclerView.apply {
+                    adapter = SearchFragmentAdapter(image_items, context).apply {
+                        itemClick = object : SearchFragmentAdapter.ItemClick {
+                            override fun onFavoritesClick(view: View, position: Int) {
+                                if (position in 0..image_items.size) {
+                                    val item = image_items[position]
+                                    item.isLike = !item.isLike
+                                    if (item.isLike) {
+                                        context.shortToast("보관함에 추가 되었습니다.")
+                                    } else
+                                        context.shortToast("보관함에서 제거 되었습니다.")
+                                    Log.d("ImageSearchs", "Search의 데이터 : ${item}")
+                                    saveItems()
+                                    Log.d("ImageSearchs", "버튼 저장데이터${image_items}")
+                                    notifyDataSetChanged()
+
+                                }
                             }
                         }
                     }
+                    layoutManager =
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    setHasFixedSize(true)
                 }
-                layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                setHasFixedSize(true)
             }
         }
-    }
 
     private fun setUpParameter(name: String): HashMap<String, String> {
         return hashMapOf(
@@ -122,7 +147,18 @@ class SearchFragment : Fragment() {
             "size" to "80"
         )
     }
-    private fun saveItems(){
+
+    private fun setUpVideoParameter(name: String): HashMap<String, String> {
+        return hashMapOf(
+            "query" to name,
+            "sort" to "accuracy",
+            "page" to "1",
+            "size" to "15"
+
+        )
+    }
+
+    private fun saveItems() {
         val gson = Gson()
         val save_items = gson.toJson(image_items)
         spf.saveData(save_items)

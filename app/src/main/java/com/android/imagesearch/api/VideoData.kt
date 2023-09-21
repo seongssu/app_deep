@@ -2,7 +2,7 @@ package com.android.imagesearch.api
 
 data class VideoData(
     val meta : VideoMeta,
-    val document: VideoDocument
+    val documents: ArrayList<VideoDocument>
 )
 
 data class VideoMeta(

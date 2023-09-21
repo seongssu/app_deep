@@ -18,3 +18,5 @@ interface NetWorkInterface {
         @QueryMap param: HashMap<String, String>
     ) : VideoData
 }
+
+interface common
