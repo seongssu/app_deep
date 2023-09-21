@@ -1,6 +1,5 @@
 package com.android.imagesearch.SearchFragment
 
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,11 +14,9 @@ import com.android.imagesearch.api.Document
 import com.android.imagesearch.api.NetWorkClient
 import com.android.imagesearch.api.VideoDocument
 import com.android.imagesearch.databinding.FragmentSearchBinding
-import com.android.imagesearch.sharedPreferences.ImageSearchData
+import com.android.imagesearch.sharedPreferences.SearchData
 import com.android.imagesearch.sharedPreferences.SPF
-import com.android.imagesearch.sharedPreferences.VideoData
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
@@ -27,9 +24,8 @@ class SearchFragment : Fragment() {
     private lateinit var spf: SPF
     var items = ArrayList<Document>()
     var items1 = ArrayList<VideoDocument>()
-    val image_items = ArrayList<ImageSearchData>()
-    val video_items = ArrayList<VideoData>()
-
+    val image_items = ArrayList<SearchData>()
+    var sum_items = ArrayList<SearchData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +43,7 @@ class SearchFragment : Fragment() {
                         communicateNetWork(
                             setUpParameter(searchQuery),
                             setUpVideoParameter(searchQuery)
+
                         )
 
                     }
@@ -75,49 +72,51 @@ class SearchFragment : Fragment() {
             val Authorization = "KakaoAK $REST_API_KEY"
             val responseData = NetWorkClient.KakaoNetWork.getImage(Authorization, param)
             val responseData1 = NetWorkClient.KakaoNetWork.getVideo(Authorization, param1)
-
+            items = responseData.documents
+            items1 = responseData1.documents
+            Log.d("ImageSearchs", "비디오데이터 : ${items1}")
             requireActivity().runOnUiThread {
 
-                items = responseData.documents
-                items1 = responseData1.documents
                 items.forEach {
+                    val type = 0
                     val display_sitename = it.display_sitename
                     val datetime = it.datetime
                     val image_url = it.image_url
-                    image_items.add(ImageSearchData(display_sitename, datetime, image_url))
+                    image_items.add(SearchData(type,display_sitename, datetime, image_url))
                 }
                 items1.forEach {
+                    val type = 1
                     val title = it.title
                     val thumbnail = it.thumbnail
                     val datetime = it.datetime
-                    video_items.add(VideoData(title,datetime,thumbnail))
-                    Log.d("ImageSearchs", "Video데이터: ${video_items}")
+                    image_items.add(SearchData(type,title,datetime,thumbnail))
                 }
+                sum_items = ArrayList(image_items.distinctBy { it.image_url }.sortedBy { it.datetime })
 
                 parentFragmentManager.setFragmentResultListener(
                     "filteritemsKey", this@SearchFragment
                 ) { key, result ->
-                    val get_items = result.getParcelableArrayList<ImageSearchData>("filteritems")
+                    val get_items = result.getParcelableArrayList<SearchData>("filteritems")
                     Log.d("ImageSearchs", "bundle로 받아온 데이터: ${get_items}")
                     if (get_items != null) {
                         get_items.forEach { item ->
-                            val index = items.indexOfFirst { it.image_url == item.image_url }
-                            image_items[index].isLike = false
-                            Log.d("ImageSearchs", "바뀐 isLike : ${image_items}")
+                            val index = sum_items.indexOfFirst { it.image_url == item.image_url }
+                            sum_items[index].isLike = false
+                            Log.d("ImageSearchs", "바뀐 isLike : ${sum_items}")
 
                             saveItems()
-                            Log.d("ImageSearchs", "bundle 저장데이터${image_items}")
+                            Log.d("ImageSearchs", "bundle 저장데이터${sum_items}")
                         }
                         binding.recyclerView.adapter?.notifyDataSetChanged()
                     }
                 }
 
                 binding.recyclerView.apply {
-                    adapter = SearchFragmentAdapter(image_items, context).apply {
+                    adapter = SearchFragmentAdapter(sum_items, context).apply {
                         itemClick = object : SearchFragmentAdapter.ItemClick {
                             override fun onFavoritesClick(view: View, position: Int) {
-                                if (position in 0..image_items.size) {
-                                    val item = image_items[position]
+                                if (position in 0..sum_items.size) {
+                                    val item = sum_items[position]
                                     item.isLike = !item.isLike
                                     if (item.isLike) {
                                         context.shortToast("보관함에 추가 되었습니다.")
@@ -125,7 +124,7 @@ class SearchFragment : Fragment() {
                                         context.shortToast("보관함에서 제거 되었습니다.")
                                     Log.d("ImageSearchs", "Search의 데이터 : ${item}")
                                     saveItems()
-                                    Log.d("ImageSearchs", "버튼 저장데이터${image_items}")
+                                    Log.d("ImageSearchs", "버튼 저장데이터${sum_items}")
                                     notifyDataSetChanged()
 
                                 }
@@ -154,13 +153,12 @@ class SearchFragment : Fragment() {
             "sort" to "accuracy",
             "page" to "1",
             "size" to "15"
-
         )
     }
 
     private fun saveItems() {
         val gson = Gson()
-        val save_items = gson.toJson(image_items)
+        val save_items = gson.toJson(sum_items)
         spf.saveData(save_items)
     }
 }

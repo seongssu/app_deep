@@ -9,11 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.imagesearch.Method.shortToast
-import com.android.imagesearch.R
-import com.android.imagesearch.api.Document
-import com.android.imagesearch.api.Kakao
 import com.android.imagesearch.databinding.FragmentInventoryFrgmentBinding
-import com.android.imagesearch.sharedPreferences.ImageSearchData
+import com.android.imagesearch.sharedPreferences.SearchData
 import com.android.imagesearch.sharedPreferences.SPF
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,9 +19,9 @@ import com.google.gson.reflect.TypeToken
 class InventoryFrgment : Fragment() {
     private val binding by lazy { FragmentInventoryFrgmentBinding.inflate(layoutInflater) }
     private lateinit var spf : SPF
-    private var inventory_items = ArrayList<ImageSearchData>()  //SPF에서 get한 데이터(String)을 넣어주는 리스트
-    private var filter_items = ArrayList<ImageSearchData>()
-    private val favoreitesList = arrayListOf<ImageSearchData>()
+    private var inventory_items = ArrayList<SearchData>()  //SPF에서 get한 데이터(String)을 넣어주는 리스트
+    private var filter_items = ArrayList<SearchData>()
+    private val favoreitesList = arrayListOf<SearchData>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +56,7 @@ class InventoryFrgment : Fragment() {
         val items = spf.getData()
         Log.d("ImageSearchs","검색결과: ${items}")
         inventory_items = Gson().fromJson(items, object:
-            TypeToken<ArrayList<ImageSearchData>>(){}.type)
+            TypeToken<ArrayList<SearchData>>(){}.type)
         filter_items = ArrayList(inventory_items.filter { it.isLike == true })
         binding.inventoryRecyclerView.apply {
             adapter = InventoryFragmentAdapter(filter_items,requireContext()).apply {

@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.android.imagesearch.Method.shortToast
 import com.android.imagesearch.R
 import com.android.imagesearch.databinding.BasicBinding
-import com.android.imagesearch.sharedPreferences.ImageSearchData
+import com.android.imagesearch.sharedPreferences.SearchData
 import com.bumptech.glide.Glide
 
-class SearchFragmentAdapter(private val items : ArrayList<ImageSearchData>,private val context: Context) :
+class SearchFragmentAdapter(private val items : ArrayList<SearchData>, private val context: Context) :
     RecyclerView
 .Adapter<RecyclerView
 .ViewHolder>() {
@@ -22,9 +21,12 @@ class SearchFragmentAdapter(private val items : ArrayList<ImageSearchData>,priva
     var itemClick:ItemClick? = null
     inner class SearchViewHolder(private val binding:BasicBinding) : RecyclerView.ViewHolder
         (binding.root){
-        fun bind(items:ImageSearchData){
+        fun bind(items:SearchData){
             binding.apply {
-                SearchName.text = items.display_sitename
+                if(items.type == 0){
+                    SearchName.text = "[image]\t\t"+items.display_sitename
+                } else SearchName.text ="[Video]\t\t"+ items.display_sitename
+
                 SearchTime.text = items.datetime
                 Glide.with(context)
                     .load(items.image_url)

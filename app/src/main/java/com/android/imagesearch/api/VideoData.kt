@@ -12,8 +12,8 @@ data class VideoMeta(
 )
 
 data class VideoDocument(
-    val title : String,
     val url : String,
+    val title : String,
     val datetime: String,
     val play_time : Int,
     val thumbnail : String,

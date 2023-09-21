@@ -19,4 +19,3 @@ interface NetWorkInterface {
     ) : VideoData
 }
 
-interface common

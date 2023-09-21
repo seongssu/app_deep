@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.imagesearch.R
-import com.android.imagesearch.SearchFragment.SearchFragmentAdapter
 import com.android.imagesearch.databinding.BasicBinding
-import com.android.imagesearch.sharedPreferences.ImageSearchData
+import com.android.imagesearch.sharedPreferences.SearchData
 import com.bumptech.glide.Glide
 
-class InventoryFragmentAdapter(private val items : ArrayList<ImageSearchData>, private val context: Context) :
+class InventoryFragmentAdapter(private val items : ArrayList<SearchData>, private val context: Context) :
     RecyclerView
 .Adapter<RecyclerView.ViewHolder>() {
 
@@ -21,7 +20,7 @@ class InventoryFragmentAdapter(private val items : ArrayList<ImageSearchData>, p
     var itemClick:ItemClick? = null
     inner class InventoryViewHolder(private val binding: BasicBinding) : RecyclerView.ViewHolder
         (binding.root){
-        fun bind(items:ImageSearchData){
+        fun bind(items:SearchData){
             binding.apply {
                 SearchName.text = items.display_sitename
                 SearchTime.text = items.datetime
