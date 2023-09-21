@@ -22,10 +22,10 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment() {
     private val binding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
     private lateinit var spf: SPF
-    var items = ArrayList<Document>()
-    var items1 = ArrayList<VideoDocument>()
-    val image_items = ArrayList<SearchData>()
-    var sum_items = ArrayList<SearchData>()
+    var items = ArrayList<Document>()           // image아이템
+    var items1 = ArrayList<VideoDocument>()     // video아이템
+    val search_items = ArrayList<SearchData>()   // image 아이템 + video아이템
+    var sum_items = ArrayList<SearchData>()     // search_item을 시간순 정렬한 데이터
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,17 +82,17 @@ class SearchFragment : Fragment() {
                     val display_sitename = it.display_sitename
                     val datetime = it.datetime
                     val image_url = it.image_url
-                    image_items.add(SearchData(type,display_sitename, datetime, image_url))
+                    search_items.add(SearchData(type,display_sitename, datetime, image_url))
                 }
                 items1.forEach {
                     val type = 1
                     val title = it.title
                     val thumbnail = it.thumbnail
                     val datetime = it.datetime
-                    image_items.add(SearchData(type,title,datetime,thumbnail))
+                    search_items.add(SearchData(type,title,datetime,thumbnail))
                 }
-                sum_items = ArrayList(image_items.distinctBy { it.image_url }.sortedBy { it.datetime })
-
+                sum_items = ArrayList(search_items.distinctBy { it.image_url }.sortedBy { it.datetime })
+                
                 parentFragmentManager.setFragmentResultListener(
                     "filteritemsKey", this@SearchFragment
                 ) { key, result ->

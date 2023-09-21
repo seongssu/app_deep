@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.imagesearch.Method.timesort
 import com.android.imagesearch.R
 import com.android.imagesearch.databinding.BasicBinding
 import com.android.imagesearch.sharedPreferences.SearchData
@@ -27,7 +28,7 @@ class SearchFragmentAdapter(private val items : ArrayList<SearchData>, private v
                     SearchName.text = "[image]\t\t"+items.display_sitename
                 } else SearchName.text ="[Video]\t\t"+ items.display_sitename
 
-                SearchTime.text = items.datetime
+                SearchTime.text = timesort(items.datetime)
                 Glide.with(context)
                     .load(items.image_url)
                     .into(SearchProfile)
