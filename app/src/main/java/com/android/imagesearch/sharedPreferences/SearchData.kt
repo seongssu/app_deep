@@ -1,11 +1,11 @@
 package com.android.imagesearch.sharedPreferences
 
-import android.net.Uri
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ImageSearchData(
+data class SearchData(
+    val type:Int,
     val display_sitename : String,
     val datetime : String,
     val image_url : String,
