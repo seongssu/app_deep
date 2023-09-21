@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.imagesearch.Method.shortToast
 import com.android.imagesearch.R
 import com.android.imagesearch.databinding.BasicBinding
 import com.android.imagesearch.sharedPreferences.ImageSearchData
@@ -34,7 +35,9 @@ class SearchFragmentAdapter(private val items : ArrayList<ImageSearchData>,priva
                 }
                 if(items.isLike){
                     binding.searchHeart.setImageResource(R.drawable.painted_heart)
-                } else binding.searchHeart.setImageResource(R.drawable.heart)
+                } else {
+                    binding.searchHeart.setImageResource(R.drawable.heart)
+                }
             }
         }
     }

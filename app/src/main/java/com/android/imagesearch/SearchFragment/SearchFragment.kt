@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.android.imagesearch.Method.shortToast
 import com.android.imagesearch.api.Document
 import com.android.imagesearch.api.NetWorkClient
 import com.android.imagesearch.databinding.FragmentSearchBinding
@@ -39,6 +40,7 @@ class SearchFragment : Fragment() {
                         val searchQuery = query.trim()
                         communicateNetWork(setUpParameter(searchQuery))
                     }
+                    context.shortToast("검색 되었습니다.")
                     return true
                 }
 
@@ -75,6 +77,9 @@ class SearchFragment : Fragment() {
                         val index = items.indexOfFirst { it.image_url == item.image_url }
                         image_items[index].isLike = false
                         Log.d("ImageSearchs", "바뀐 isLike : ${image_items}")
+
+                        saveItems()
+                        Log.d("ImageSearchs", "bundle 저장데이터${image_items}")
                     }
                     binding.recyclerView.adapter?.notifyDataSetChanged()
                 }
@@ -87,11 +92,11 @@ class SearchFragment : Fragment() {
                             if (position in 0..image_items.size) {
                                 val item = image_items[position]
                                 item.isLike = !item.isLike
+                                if(item.isLike) {context.shortToast("보관함에 추가 되었습니다.")} else
+                                    context.shortToast("보관함에서 제거 되었습니다.")
                                 Log.d("ImageSearchs", "Search의 데이터 : ${item}")
-                                val gson = Gson()
-                                val save_items = gson.toJson(image_items)
-                                spf.saveData(save_items)
-
+                                saveItems()
+                                Log.d("ImageSearchs", "버튼 저장데이터${image_items}")
                                 notifyDataSetChanged()
 
                             }
@@ -111,5 +116,10 @@ class SearchFragment : Fragment() {
             "page" to "1",
             "size" to "80"
         )
+    }
+    private fun saveItems(){
+        val gson = Gson()
+        val save_items = gson.toJson(image_items)
+        spf.saveData(save_items)
     }
 }
