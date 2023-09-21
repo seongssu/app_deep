@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.imagesearch.R
-import com.android.imagesearch.api.Document
 import com.android.imagesearch.databinding.BasicBinding
+import com.android.imagesearch.sharedPreferences.ImageSearchData
 import com.bumptech.glide.Glide
 
-class SearchFragmentAdapter(private val items : ArrayList<Document>,private val context: Context) : RecyclerView
+class SearchFragmentAdapter(private val items : ArrayList<ImageSearchData>,private val context: Context) :
+    RecyclerView
 .Adapter<RecyclerView
 .ViewHolder>() {
 
@@ -20,7 +21,7 @@ class SearchFragmentAdapter(private val items : ArrayList<Document>,private val 
     var itemClick:ItemClick? = null
     inner class SearchViewHolder(private val binding:BasicBinding) : RecyclerView.ViewHolder
         (binding.root){
-        fun bind(items:Document){
+        fun bind(items:ImageSearchData){
             binding.apply {
                 SearchName.text = items.display_sitename
                 SearchTime.text = items.datetime

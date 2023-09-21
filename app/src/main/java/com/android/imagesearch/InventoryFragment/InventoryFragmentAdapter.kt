@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.imagesearch.R
 import com.android.imagesearch.SearchFragment.SearchFragmentAdapter
-import com.android.imagesearch.api.Document
 import com.android.imagesearch.databinding.BasicBinding
+import com.android.imagesearch.sharedPreferences.ImageSearchData
 import com.bumptech.glide.Glide
 
-class InventoryFragmentAdapter(private val items : ArrayList<Document>, private val context: Context) : RecyclerView
+class InventoryFragmentAdapter(private val items : ArrayList<ImageSearchData>, private val context: Context) :
+    RecyclerView
 .Adapter<RecyclerView.ViewHolder>() {
 
     interface ItemClick {
@@ -20,7 +21,7 @@ class InventoryFragmentAdapter(private val items : ArrayList<Document>, private 
     var itemClick:ItemClick? = null
     inner class InventoryViewHolder(private val binding: BasicBinding) : RecyclerView.ViewHolder
         (binding.root){
-        fun bind(items:Document){
+        fun bind(items:ImageSearchData){
             binding.apply {
                 SearchName.text = items.display_sitename
                 SearchTime.text = items.datetime

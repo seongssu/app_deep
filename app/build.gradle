@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
+plugins {
+    id("kotlin-parcelize")
+}
 
 android {
     namespace 'com.android.imagesearch'
@@ -52,4 +55,5 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
 }
