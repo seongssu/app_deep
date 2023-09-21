@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.android.imagesearch.Method.shortToast
 import com.android.imagesearch.R
 import com.android.imagesearch.api.Document
 import com.android.imagesearch.api.Kakao
@@ -56,6 +57,7 @@ class InventoryFrgment : Fragment() {
     private fun UpdateItems() {
         Log.d("ImageSearchs","호출되냐?")
         val items = spf.getData()
+        Log.d("ImageSearchs","검색결과: ${items}")
         inventory_items = Gson().fromJson(items, object:
             TypeToken<ArrayList<ImageSearchData>>(){}.type)
         filter_items = ArrayList(inventory_items.filter { it.isLike == true })
@@ -69,7 +71,7 @@ class InventoryFrgment : Fragment() {
                         if(position in 0..filter_items.size){
                             val item = filter_items[position]
                             item.isLike = !item.isLike
-
+                            context.shortToast("보관함에서 제거 되었습니다.")
                             favoreitesList.clear()
                             favoreitesList.add(item)
                             filter_items.removeAt(position)
