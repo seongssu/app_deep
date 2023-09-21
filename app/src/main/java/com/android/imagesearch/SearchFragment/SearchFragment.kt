@@ -38,16 +38,21 @@ class SearchFragment : Fragment() {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     if (!query.isNullOrEmpty()) {
                         val searchQuery = query.trim()
+                        spf.saveTitle(searchQuery)
                         communicateNetWork(setUpParameter(searchQuery))
                     }
                     context.shortToast("검색 되었습니다.")
-                    return true
+                    return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     return true
                 }
             })
+            val getTitle = spf.getTitle()
+            if (getTitle.isNotEmpty()) {
+                setQuery(getTitle, false)
+            }
         }
         return binding.root
     }
