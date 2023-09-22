@@ -1,15 +1,14 @@
-## 목록  
+### 목록  
 
-#### [Image Search](#ImageSearch) : 심화 개인 과제  
-#### [latecomers 6weeks](#latecomers6weeks) : 후발대 6주차 과제  
-#### [AppDevelop deep](#AppDevelopdeep) : 심화 강의  
+##### [Image Search](#ImageSearch) : 심화 개인 과제  
+##### [latecomers 6weeks](#latecomers6weeks) : 후발대 6주차 과제  
+##### [AppDevelop deep](#AppDevelopdeep) : 심화 강의  
   
   
   
   
   
-## ImageSearch
-:심화 개인 과제
+## ImageSearch  
 ## 프로그램 설명
 - 이 프로젝트는 이미지&동영상을 검색하고 원하는 이미지& 동영상을 보관함에 추가&제거를 할 수 있습니다.
 - 검색 결과는 앱 재시작 시 초기화되며, 보관함에 저장된 데이터와 마지막 검색기록은 Sharedpreferences를 이용해서 저장됩니다.
