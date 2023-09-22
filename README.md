@@ -1,7 +1,4 @@
-* [ImageSearch(개인과제)]
-* [latecomers_6weeks]
-* [AppDevelop_deep]
-ImageSearch(개인과제)
+## ImageSearch(개인과제)
 ======================
 ## 프로그램 설명
 - 이 프로젝트는 이미지&동영상을 검색하고 원하는 이미지& 동영상을 보관함에 추가&제거를 할 수 있습니다.
