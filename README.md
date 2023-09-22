@@ -1,6 +1,6 @@
-*[Image Search](#ImageSearch) : 심화 개인 과제
-*[latecomers 6weeks](#latecomers6weeks) : 후발대 6주차 과제
-*[AppDevelop deep](#AppDevelopdeep) : 심화 강의
+# [Image Search](#ImageSearch) : 심화 개인 과제  
+# [latecomers 6weeks](#latecomers6weeks) : 후발대 6주차 과제  
+# [AppDevelop deep](#AppDevelopdeep) : 심화 강의  
 
 ## ImageSearch
 :심화 개인 과제
