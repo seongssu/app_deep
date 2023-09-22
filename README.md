@@ -3,10 +3,8 @@
 ##### [Image Search](#ImageSearch) : 심화 개인 과제  
 ##### [latecomers 6weeks](#latecomers6weeks) : 후발대 6주차 과제  
 ##### [AppDevelop deep](#AppDevelopdeep) : 심화 강의  
-  
-  
-  
-  
+
+=================================================================  
   
 # ImageSearch  
 ## 프로그램 설명
@@ -52,11 +50,11 @@
     - SearchFragment에서는 보관함(InventoryFragment)에서 변경된 사항을 parentFragmentManager를 이용해서 업데이트하고
     - Bundle()로 받아온 데이터와 기존의 데이터를 비교해서 바뀐데이터의 isLike를 false로 수정해주면서 업데이트해서 앱에 표시해줍니다.
 
-
+=================================================================  
 # latecomers6weeks
 :후발대 6주차 과제
 - Used Code : 생성주기, 확장함수, fragmentManager, viewBinding
-
+=================================================================  
 # AppDevelopdeep
 :심화 강의
 
