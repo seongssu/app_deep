@@ -1,5 +1,9 @@
-## ImageSearch(개인과제)
+*[Image Search](#ImageSearch) : 심화 개인 과제
+*[latecomers 6weeks](#latecomers6weeks) : 후발대 6주차 과제
+*[AppDevelop deep](#AppDevelopdeep) : 심화 강의
 
+## ImageSearch
+:심화 개인 과제
 ## 프로그램 설명
 - 이 프로젝트는 이미지&동영상을 검색하고 원하는 이미지& 동영상을 보관함에 추가&제거를 할 수 있습니다.
 - 검색 결과는 앱 재시작 시 초기화되며, 보관함에 저장된 데이터와 마지막 검색기록은 Sharedpreferences를 이용해서 저장됩니다.
@@ -42,21 +46,24 @@
     - InventoryFragment에서 동일하게 heart버튼을 이용해서 추가&제거 후 SearchFragment로 Bundle()을 이용해서 데이터를 업데이트 시켜줍니다.
     - SearchFragment에서는 보관함(InventoryFragment)에서 변경된 사항을 parentFragmentManager를 이용해서 업데이트하고
     - Bundle()로 받아온 데이터와 기존의 데이터를 비교해서 바뀐데이터의 isLike를 false로 수정해주면서 업데이트해서 앱에 표시해줍니다.
-    
 
-1. latecomers_6weeks	:	후발대6주차 과제 완료
-   - Used Code : 생성주기, 확장함수, fragmentManager, viewBinding
-  
-2. AppDevelop_deep : 심화 강의
-   
-	ㄱ. SharedPreferences 패키지 : SharedPreferences
+
+## latecomers6weeks
+:후발대 6주차 과제
+- Used Code : 생성주기, 확장함수, fragmentManager, viewBinding
+
+## AppDevelopdeep
+:심화 강의
+
+   ㄱ. SharedPreferences 패키지 : SharedPreferences
 
    		- Used Code : SharedPreferences, 확장함수, viewBinding
-   	  
-	ㄴ. CreatingGoogleMapsAppActivity 패키지 : 구글 지도 앱 만들기
+
+   ㄴ. CreatingGoogleMapsAppActivity 패키지 : 구글 지도 앱 만들기
 
    		- Used Code : OnMapReadyCallback인터페이스, registerForActivityResult, supportFragmentManager, onMapReady, Manifest.permission, onLocationResult, LatLng, CameraUpdateFactory.newCameraPosition
 
    	ㄷ. miseya 패키지 : 미세먼지 앱 만들기
-   
+
    		- 예외처리 해결 중 : pm10Value 값이 null일 경우 에러발생
+
