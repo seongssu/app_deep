@@ -97,7 +97,7 @@ class MiseyaActivity : AppCompatActivity() {
             "ver" to "1.0"
         )
     }
-
+error
     fun getGrade(value: String): Int {
         val Value = value?.toIntOrNull() ?: 0
 
